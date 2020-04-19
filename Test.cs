@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using System;
 
 public class Test :MonoBehaviour
 {
@@ -20,12 +21,10 @@ public class Test :MonoBehaviour
         Observable.EveryUpdate()
             .Where(_ => Input.GetKeyDown(KeyCode.Space))
             .Subscribe(_ => Debug.Log("Space!-AddTo"))
-            .AddTo(this);
+            .AddTo(this.gameObject);
 
-        Invoke("destroy", 5.0f);
+        Observable.Timer(TimeSpan.FromSeconds(5))
+           .Subscribe(_ => Destroy(this.gameObject));
     }
-    void destroy() {
-        Debug.Log("destroy");
-        Destroy(this.gameObject);
-    }
+
 }
